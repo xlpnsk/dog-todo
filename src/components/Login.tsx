@@ -12,7 +12,17 @@ const Login: FunctionComponent<LoginProps> = () => {
 
     const handleLogin = async (e:FormEvent) => {
         e.preventDefault()
-        alert("You've just clicked login button!")
+
+        try {
+            setLoading(true)
+            const { error } = await supabase.auth.signIn({ email })
+            if (error) throw error
+            alert('Check your email for the login link!')
+        } catch (error:any) {
+            alert(error.error_description || error.message)
+        } finally {
+            setLoading(false)
+        }
     }
 
     return (
