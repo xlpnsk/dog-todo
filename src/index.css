@@ -1,3 +1,14 @@
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+:root{
+  --rich-black-fogra-29: #0d1b2aff;
+  --oxford-blue: #1b263bff;
+  --bdazzled-blue: #415a77ff;
+  --shadow-blue: #778da9ff;
+  --platinum: #e0e1ddff;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -10,4 +21,147 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+.App{
+  min-height: 100vh;
+  background-color: var(--shadow-blue);
+}
+.header{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 90px;
+  position: relative;
+  padding-inline: 30px;
+  letter-spacing: 2.2px;
+  background-color: var(--oxford-blue);
+  color: var(--platinum);
+}
+.main-container{
+  padding: 40px 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.btn{
+  min-width: 80px;
+  height: 40px;
+  padding: 10px 30px;
+  font-size: 15px;
+  border: 1px solid var(--shadow-blue);
+  background-color: var(--platinum);
+  cursor: pointer;
+  transition: all .3s ease;
+}
+
+.btn:hover{
+  background-color: var(--bdazzled-blue);
+  color: var(--platinum);
+}
+
+.todo{
+  list-style: none;
+  background-color: var(--platinum);
+  padding: 20px;
+  width: 300px;
+  border: 4px solid var(--bdazzled-blue);
+  display: flex;
+  flex-direction: column;
+}
+
+.login-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  min-width: 60%;
+  border: 2px solid var(--rich-black-fogra-29);
+  background-color: var(--oxford-blue);
+  color: var(--platinum);
+  padding: 40px 80px;
+}
+
+.login-description{
+  letter-spacing: 1.2px;
+  font-size: 2em;
+}
+
+.login-container form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: fit-content;
+}
+.login-container form>*{
+  margin-bottom: 20px;
+}
+.login-container form label{
+  font-size: 20px;
+  width: 100%;
+  text-align: left;
+}
+.login-input{
+  width: 400px;
+  height: 40px;
+  outline: none;
+  padding: 20px;
+  font-family: inherit;
+  font-size: 15px;
+}
+.todo-list{
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.btn-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+#task-name{
+  width: 400px;
+  height: 40px;
+  outline: none;
+  padding: 20px;
+  font-family: inherit;
+  font-size: 15px;
+}
+
+.task-form{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px
+}
+.task-form>div{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  align-items: center;
+  gap: 10px;
+}
+.task-form select{
+  padding: 12px;
+    height: 44px;
+    outline: none;
+    font-size: 15px;
+    font-family: inherit;
+}
+
+.task-form textarea{
+  width: 100%;
+  outline: none;
+  font-size: 15px;
+  padding: 20px;
+  resize: none;
+  font-style: normal;
+  font-family: inherit;
 }
