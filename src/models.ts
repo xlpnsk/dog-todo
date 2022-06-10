@@ -4,7 +4,10 @@ export interface ITodo {
     created_at?: string,
     description?: string,
     category_id: number,
-    user_id: number
+    user_id: number,
+    Category: {
+        name:string
+    }
 }
 
 export interface ICategory {
