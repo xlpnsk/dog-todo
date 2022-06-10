@@ -14,6 +14,7 @@ const TodoList: FunctionComponent<TodoListProps> = () => {
     const [taskCategoryId,setTaskCategoryId] = useState('');
     const [taskDescription,setTaskDescription] = useState('');
     const [categories, setCategories] = useState<ICategory[]>([]);
+    const [editedTaskId,setEditedTaskId] = useState<number | null>(null);
     useEffect(() => {
         getTasks();
         getCategories();
@@ -70,6 +71,60 @@ const TodoList: FunctionComponent<TodoListProps> = () => {
         }      
     }
 
+    const deleteTask = async (taskId:number) => {
+        try {
+            const userId = supabase.auth.user()!.id
+            const { error } = await supabase
+                .from('Todo')
+                .delete()
+                .eq('id', taskId)
+                .eq('user_id',userId)
+
+            if (error) {
+                throw error
+            }
+            alert('Task successfully deleted');
+        } 
+        catch (error:any) {
+          alert(error.message)
+        } 
+    }
+
+    const editTask = async (taskId:number) => {
+        try {
+            const userId = supabase.auth.user()!.id
+            const { error } = await supabase
+                .from('Todo')
+                .update({ 
+                    name: taskName, 
+                    description: taskDescription, 
+                    category_id: taskCategoryId, 
+                })
+                .eq('id', taskId)
+                .eq('user_id',userId)
+            if (error) {
+                throw error
+            }
+            alert('Task successfully edited');
+            setTaskCategoryId('');
+            setTaskDescription('');
+            setTaskName('');
+            setEditedTaskId(null);
+        } 
+        catch (error:any) {
+          alert(error.message)
+        } 
+    }
+
+    const handleEdit = (taskId:number) => {
+        
+        setEditedTaskId(taskId);
+        const editedTask = todos.find((todo) => todo.id == taskId)!
+        setTaskCategoryId(editedTask.category_id.toString())
+        setTaskDescription(editedTask.description ? editedTask.description : '')
+        setTaskName(editedTask.name)
+    }
+
     const saveTask = async () => {
         try {
             const userId = supabase.auth.user()!.id
@@ -101,7 +156,10 @@ const TodoList: FunctionComponent<TodoListProps> = () => {
             alert('You have to choose some category')
             return;
         }
-        saveTask()
+        if(editedTaskId)
+            editTask(editedTaskId)
+        else
+            saveTask()
     }
     return (
         <>
@@ -143,7 +201,7 @@ const TodoList: FunctionComponent<TodoListProps> = () => {
             {loading ?
                 <div>Loading...</div> :
                 <ul className="todo-list">
-                    {todos.map((todo) => <Todo key={todo.id} todo={todo}/>)}
+                    {todos.map((todo) => <Todo key={todo.id} todo={todo} deleteTask={deleteTask} handleEdit={handleEdit}/>)}
                 </ul>
             } 
             
