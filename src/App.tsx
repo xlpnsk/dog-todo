@@ -14,13 +14,25 @@ function App() {
     supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session)
     })
-  }, [])
+  }, []);
+
+  const logOut = async () => {
+    try{
+      const { error } = await supabase.auth.signOut();
+
+      if(error)
+        throw error
+    }
+    catch(error){
+      alert('This action is unavailable right now')
+    }
+  }
   
   return (
     <div className="App">
       <header className='header'>
         <h1>Dog TODO</h1>
-        <button className='btn'>Log out</button>
+        {session && <button className='btn' onClick={logOut}>Log out</button>}
       </header>
       <main className='main-container'>
         {!session ? <Login /> : <TodoList/>}

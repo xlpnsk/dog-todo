@@ -84,6 +84,7 @@ const TodoList: FunctionComponent<TodoListProps> = () => {
                 throw error
             }
             alert('Task successfully deleted');
+            setTodos(todos.filter((todo) => todo.id !== taskId))
         } 
         catch (error:any) {
           alert(error.message)
@@ -106,6 +107,16 @@ const TodoList: FunctionComponent<TodoListProps> = () => {
                 throw error
             }
             alert('Task successfully edited');
+            setTodos(todos.map(todo => 
+                todo.id === taskId ? 
+                {...todo, 
+                    name: taskName, 
+                    category_id: parseInt(taskCategoryId), 
+                    description: taskDescription, 
+                    Category: {
+                        name: categories.find(category => category.id === parseInt(taskCategoryId))?.name!
+                }} :
+                todo))
             setTaskCategoryId('');
             setTaskDescription('');
             setTaskName('');
@@ -128,7 +139,7 @@ const TodoList: FunctionComponent<TodoListProps> = () => {
     const saveTask = async () => {
         try {
             const userId = supabase.auth.user()!.id
-            const { error } = await supabase
+            const { data:Todo,error } = await supabase
                 .from('Todo')
                 .insert([{ 
                     name: taskName, 
@@ -141,9 +152,12 @@ const TodoList: FunctionComponent<TodoListProps> = () => {
                 throw error
             }
             alert('Task successfully added');
+            const newTodo:ITodo = {...Todo[0], Category: {name: categories.find(category => category.id === parseInt(taskCategoryId))?.name!}}
+            setTodos([...todos,newTodo])
             setTaskCategoryId('');
             setTaskDescription('');
             setTaskName('');
+            
         } 
         catch (error:any) {
           alert(error.message)
