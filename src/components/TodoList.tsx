@@ -18,7 +18,7 @@ const TodoList: FunctionComponent<TodoListProps> = () => {
         try {
             setLoading(true)
             const userId = supabase.auth.user()!.id
-            let { data: Todos, error, status } = await supabase
+            const { data: Todos, error, status } = await supabase
             .from('Todo')
             .select(
                 `*,
